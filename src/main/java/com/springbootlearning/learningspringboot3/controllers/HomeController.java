@@ -1,6 +1,8 @@
 package com.springbootlearning.learningspringboot3.controllers;
 
 import com.springbootlearning.learningspringboot3.model.Video;
+import com.springbootlearning.learningspringboot3.model.VideoEntity;
+import com.springbootlearning.learningspringboot3.model.VideoSearch;
 import com.springbootlearning.learningspringboot3.service.VideoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,5 +34,15 @@ public class HomeController {
     public String newVideo(@ModelAttribute Video newVideo){
         videoService.create(newVideo);
         return "redirect:/";
+    }
+
+    @PostMapping("/multi-field-search")
+    public String multiFieldSearch(
+            @ModelAttribute VideoSearch search,
+            Model model
+    ){
+        List<VideoEntity> searchResults = videoService.search(search);
+        model.addAttribute("videos",searchResults);
+        return "index";
     }
 }
